@@ -1,0 +1,42 @@
+{
+  // Obitrain RN library preset (react-native-builder-bob repos: obi-chart,
+  // obiapp-ui, react-native-zstd, obi-google-auth, ...).
+  // Differs from the obiapp APP config: no Detox/[e2e] gate (libs run jest on
+  // CI), and peerDependencies are left to the maintainer (they express RN
+  // compatibility).
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+
+  extends: ["github>Obitrain/renovate-config"],
+
+  packageRules: [
+    // peerDependencies are the RN/react compatibility contract — don't let the
+    // bot touch them. Bump by hand when supporting a new major.
+    { matchDepTypes: ["peerDependencies"], enabled: false },
+
+    // Tier 1 — dev tooling (eslint, prettier, jest, typescript, @types/*, …):
+    // batch + automerge on green CI. Fast deterministic jest → safe to automerge.
+    {
+      matchDepTypes: ["devDependencies"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "dev tooling",
+      automerge: true,
+    },
+
+    // Build backbone — a bad bump breaks the package build/codegen; review by
+    // hand. nitrogen must move in lockstep with react-native-nitro-modules
+    // (inert in repos without nitro).
+    {
+      matchPackageNames: ["react-native-builder-bob", "nitrogen", "react-native-nitro-modules", "turbo"],
+      automerge: false,
+    },
+
+    // React Native platform upgrades are manual (rn-upgrade) — ignore RN core.
+    {
+      matchPackageNames: ["react-native", "@react-native/*", "@react-native-community/cli*"],
+      enabled: false,
+    },
+
+    // Majors — always solo + manual.
+    { matchUpdateTypes: ["major"], automerge: false, addLabels: ["major-bump"] },
+  ],
+}

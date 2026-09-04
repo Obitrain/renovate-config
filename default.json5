@@ -1,0 +1,22 @@
+{
+  // Obitrain shared Renovate base — common policy for every repo.
+  // Consumed as `extends: ["github>Obitrain/renovate-config"]` (this file) or
+  // through a named preset like `:lib`. Repo-specific rules stay in each repo.
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+
+  extends: [
+    "config:recommended",
+    ":dependencyDashboard", // tracking issue listing pending updates
+    ":semanticCommits", // chore(deps): ... — matches our commit style
+  ],
+
+  // npm only — never touch gradle (Android) / CocoaPods (iOS) / bundler /
+  // gitlabci / nvm manifests.
+  enabledManagers: ["npm"],
+
+  timezone: "Europe/Paris",
+  schedule: ["before 6am"], // nightly, off-hours — spares the self-hosted M2 runners
+  prConcurrentLimit: 5, // don't drown maintainers in MRs
+  rangeStrategy: "bump", // move the ^range, keep the caret
+  labels: ["dependencies"],
+}
