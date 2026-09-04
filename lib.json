@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>Obitrain/renovate-config"],
+  "packageRules": [
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "dev tooling",
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["react-native-builder-bob", "nitrogen", "react-native-nitro-modules", "turbo"],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["react-native", "@react-native/*", "@react-native-community/cli*"],
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["major-bump"]
+    }
+  ]
+}
