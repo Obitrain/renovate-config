@@ -1,19 +1,22 @@
 # renovate-config
 
-Shared Renovate presets for Obitrain repos. Plain JSON, no comments — Renovate
-fetches remote presets as `<name>.json` only (no `.json5` fallback), so the
-rationale lives here instead.
+Shared [Renovate](https://docs.renovatebot.com) presets for Obitrain repos.
+Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` only
+(no `.json5` fallback), so the rationale lives here instead.
 
 ## `default.json` — common base
 
-- `config:recommended` + dependency dashboard + semantic commits (`chore(deps): ...`).
+- [`config:recommended`](https://docs.renovatebot.com/presets-config/#configrecommended) + dependency dashboard + semantic commits (`chore(deps): ...`).
 - npm manager only — never touch gradle (Android) / CocoaPods (iOS) / bundler / CI manifests.
 - Nightly window: `before 6am` Europe/Paris — off-hours, spares the self-hosted M2 runners.
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
 
 ## `lib.json` — RN library policy (extends the base)
 
-For react-native-builder-bob library repos (obiapp-ui, react-native-zstd, obi-google-auth, ...).
+For [react-native-builder-bob](https://github.com/callstack/react-native-builder-bob)
+library repos ([obiapp-ui](https://github.com/Obitrain/obiapp-ui),
+[react-native-zstd](https://github.com/Andarius/react-native-zstd),
+[obi-google-auth](https://github.com/Obitrain/obi-google-auth), ...).
 Rules, in order:
 
 - **peerDependencies: hands off** — they're the RN/react compatibility contract; bump by hand.
@@ -22,7 +25,7 @@ Rules, in order:
 - **RN core** (`react-native`, `@react-native/*`, cli): fully ignored — platform upgrades are manual (rn-upgrade).
 - **majors**: always solo + manual, labeled `major-bump`.
 
-Repos with diverging policy (obi-chart: weekly cadence, Expo-bundled natives,
+Repos with diverging policy ([obi-chart](https://github.com/Obitrain/obi-chart): weekly cadence, Expo-bundled natives,
 align-deps ownership where RN-core majors must still surface) extend only the
 base and keep their rules inline.
 
@@ -39,8 +42,8 @@ base and keep their rules inline.
 
 The GitHub repos are driven by this repo's own cron workflow
 (`.github/workflows/renovate.yml`, nightly 03:00 UTC + `workflow_dispatch`),
-running `renovatebot/github-action` against the explicit repo list — not the
-Mend app. It needs the `RENOVATE_TOKEN` Actions secret: a **classic** PAT with
+running [`renovatebot/github-action`](https://github.com/renovatebot/github-action)
+against the explicit repo list — not the [Mend app](https://github.com/apps/renovate). It needs the `RENOVATE_TOKEN` Actions secret: a **classic** PAT with
 `repo` scope (classic spans both `Andarius` and `Obitrain`; fine-grained PATs
 are per-owner). Repos without a config get an onboarding PR proposing the lib
 preset. GitHub suspends cron in repos inactive >60 days — re-enable from the
