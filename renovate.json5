@@ -1,0 +1,7 @@
+{
+  // This repo's own config: base policy + keep the runner workflow's pinned
+  // renovatebot/github-action current (the base preset is npm-only).
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["github>Obitrain/renovate-config"],
+  enabledManagers: ["npm", "github-actions"],
+}

@@ -1,0 +1,37 @@
+# Central Renovate runner for the GitHub repos (obiapp lives on GitLab and has
+# its own scheduled CI job). Needs the RENOVATE_TOKEN secret: a classic PAT,
+# repo scope — classic spans Andarius + Obitrain; fine-grained is per-owner.
+name: renovate
+
+on:
+  schedule:
+    # 03:00 UTC = 04:00/05:00 Paris — inside the presets' "before 6am" window.
+    # GitHub suspends schedules in repos inactive >60 days: re-enable from the
+    # Actions tab (or run workflow_dispatch) when the reminder email arrives.
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: renovate
+  cancel-in-progress: false
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Renovate
+        uses: renovatebot/github-action@39b914146caeff8cd512e61c8992f1d5913af85c # v46.2.5
+        with:
+          token: ${{ secrets.RENOVATE_TOKEN }}
+        env:
+          # TODO: add Obitrain/obi-google-auth once the repo exists
+          RENOVATE_REPOSITORIES: >-
+            ["Andarius/react-native-zstd",
+             "Obitrain/obi-image",
+             "Obitrain/obi-notifications",
+             "Obitrain/obi-chart",
+             "Obitrain/obiapp-ui",
+             "Obitrain/renovate-config"]
+          # Repos without a config get an onboarding PR proposing the lib preset.
+          RENOVATE_ONBOARDING_CONFIG: '{"extends": ["github>Obitrain/renovate-config:lib"]}'
+          LOG_LEVEL: info

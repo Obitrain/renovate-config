@@ -35,8 +35,19 @@ base and keep their rules inline.
 }
 ```
 
-The Mend Renovate app needs read access to this repo (public, so cross-owner
-consumers like Andarius/react-native-zstd work too). Self-hosted runs (obiapp on
-GitLab) need `GITHUB_COM_TOKEN` to fetch `github>` presets. Pin a revision with
+## Runner
+
+The GitHub repos are driven by this repo's own cron workflow
+(`.github/workflows/renovate.yml`, nightly 03:00 UTC + `workflow_dispatch`),
+running `renovatebot/github-action` against the explicit repo list — not the
+Mend app. It needs the `RENOVATE_TOKEN` Actions secret: a **classic** PAT with
+`repo` scope (classic spans both `Andarius` and `Obitrain`; fine-grained PATs
+are per-owner). Repos without a config get an onboarding PR proposing the lib
+preset. GitHub suspends cron in repos inactive >60 days — re-enable from the
+Actions tab when the reminder email arrives.
+
+obiapp (GitLab) keeps its own scheduled CI job. Self-hosted GitLab runs need
+`GITHUB_COM_TOKEN` to fetch `github>` presets. Pin a revision with
 `github>Obitrain/renovate-config:lib#<tag>` if a config change must not apply
-instantly everywhere.
+instantly everywhere. This repo stays public so cross-owner preset fetches
+(e.g. Andarius/react-native-zstd) keep working.
