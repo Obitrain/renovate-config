@@ -8,7 +8,8 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
 
 - [`config:recommended`](https://docs.renovatebot.com/presets-config/#configrecommended) + dependency dashboard + semantic commits (`chore(deps): ...`).
 - npm manager only — never touch gradle (Android) / CocoaPods (iOS) / bundler / CI manifests.
-- Nightly window: `before 6am` Europe/Paris — off-hours, spares the self-hosted M2 runners.
+- No `schedule`: the runner's nightly cron is the only time gate. GitHub starts it hours late
+  (~08:00 UTC for a 03:00 cron), so an in-config window like `before 6am` would never match.
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
 
 ## `lib.json` — RN library policy (extends the base)
