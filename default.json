@@ -6,5 +6,6 @@
   "minimumReleaseAge": "3 days",
   "prConcurrentLimit": 5,
   "rangeStrategy": "bump",
+  "rebaseWhen": "behind-base-branch",
   "labels": ["dependencies"]
 }

@@ -13,6 +13,8 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
 - `minimumReleaseAge: 3 days`: yarn ≥ 4.18 quarantines releases younger than a day, so fresher
   proposals fail `yarn install`; also a supply-chain buffer.
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
+- `rebaseWhen: behind-base-branch`: every PR re-runs CI on the latest main, so a fix landing on main
+  (e.g. an Expo SDK patch) turns the other PRs green without manual rebases.
 
 ## `lib.json` — RN library policy (extends the base)
 
