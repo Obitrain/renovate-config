@@ -3,6 +3,7 @@
   "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
   "enabledManagers": ["npm"],
   "timezone": "Europe/Paris",
+  "minimumReleaseAge": "3 days",
   "prConcurrentLimit": 5,
   "rangeStrategy": "bump",
   "labels": ["dependencies"]

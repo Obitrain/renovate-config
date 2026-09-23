@@ -3,17 +3,50 @@
   "extends": ["github>Obitrain/renovate-config"],
   "packageRules": [
     {
-      "matchDepTypes": ["peerDependencies"],
+      "matchDepTypes": ["peerDependencies", "engines"],
       "enabled": false
     },
     {
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "!react",
+        "!react-*",
+        "!@types/react",
+        "!@types/react-*",
+        "!@react-native/*",
+        "!@react-native-community/*",
+        "!@shopify/react-native-*",
+        "!expo",
+        "!expo-*",
+        "!babel-preset-expo",
+        "!nitrogen",
+        "!turbo"
+      ],
       "groupName": "dev tooling",
       "automerge": true
     },
     {
-      "matchPackageNames": ["react-native-builder-bob", "nitrogen", "react-native-nitro-modules", "turbo"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "react",
+        "react-*",
+        "@types/react",
+        "@types/react-*",
+        "@react-native-community/*",
+        "@shopify/react-native-*",
+        "!react-native-builder-bob",
+        "!react-native-nitro-modules"
+      ],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["react-native-builder-bob", "turbo"],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["nitrogen", "react-native-nitro-modules"],
+      "groupName": "nitro",
       "automerge": false
     },
     {
@@ -22,6 +55,7 @@
     },
     {
       "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
       "automerge": false,
       "addLabels": ["major-bump"]
     }

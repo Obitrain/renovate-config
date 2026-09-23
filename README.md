@@ -10,6 +10,8 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
 - npm manager only — never touch gradle (Android) / CocoaPods (iOS) / bundler / CI manifests.
 - No `schedule`: the runner's nightly cron is the only time gate. GitHub starts it hours late
   (runs have landed ~5h late), so an in-config window like `before 6am` would never match.
+- `minimumReleaseAge: 3 days`: yarn ≥ 4.18 quarantines releases younger than a day, so fresher
+  proposals fail `yarn install`; also a supply-chain buffer.
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
 
 ## `lib.json` — RN library policy (extends the base)
@@ -20,11 +22,18 @@ library repos ([obiapp-ui](https://github.com/Obitrain/obiapp-ui),
 [obi-google-auth](https://github.com/Obitrain/obi-google-auth), ...).
 Rules, in order:
 
-- **peerDependencies: hands off** — they're the RN/react compatibility contract; bump by hand.
-- **dev tooling** (devDeps minor/patch): batched into one PR, automerged on green CI.
-- **build backbone** (`react-native-builder-bob`, `nitrogen`, `react-native-nitro-modules`, `turbo`): manual — a bad bump breaks the package build/codegen; nitrogen must move in lockstep with nitro-modules. Inert in repos without these deps.
+- **peerDependencies + engines: hands off** — they're the compatibility contract; bump by hand.
+- **dev tooling** (devDeps minor/patch): batched into one PR, automerged on green CI — excluding
+  everything below, which must never ride along.
+- **RN / React packages, in devDeps and the example app** (`react*`, `@types/react*`, `react-native-*`,
+  `@react-native-community/*`, `@shopify/react-native-*`): no routine bumps — they track the Expo
+  SDK / align-deps (expo-doctor and align-deps fail otherwise); majors still surface. Expo packages
+  move through Renovate's own "expo monorepo" group.
+- **build backbone** (`react-native-builder-bob`, `turbo`): solo PR, manual — a bad bump breaks the build.
+- **nitro** (`nitrogen` + `react-native-nitro-modules`): one PR together, manual — generated code must
+  match the runtime, and 0.x minors are breaking. Inert in repos without these deps.
 - **RN core** (`react-native`, `@react-native/*`, cli): fully ignored — platform upgrades are manual (rn-upgrade).
-- **majors**: always solo + manual, labeled `major-bump`.
+- **majors**: created only when approved on the Dependency Dashboard, never automerged, labeled `major-bump`.
 
 Repos with diverging policy ([obi-chart](https://github.com/Obitrain/obi-chart): weekly cadence, Expo-bundled natives,
 align-deps ownership where RN-core majors must still surface) extend only the
