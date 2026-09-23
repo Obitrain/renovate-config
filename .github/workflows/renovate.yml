@@ -6,9 +6,10 @@ name: renovate
 on:
   schedule:
     # this cron is the only time gate (GitHub fires it hours late) — presets set no schedule.
+    # 18:00 UTC keeps runs in the evening; GitHub delays only push them later.
     # GitHub suspends schedules in repos inactive >60 days: re-enable from the
     # Actions tab (or run workflow_dispatch) when the reminder email arrives.
-    - cron: '0 3 * * *'
+    - cron: '0 18 * * *'
   workflow_dispatch:
 
 concurrency:
