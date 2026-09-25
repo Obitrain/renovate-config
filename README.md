@@ -12,6 +12,9 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
   (runs have landed ~5h late), so an in-config window like `before 6am` would never match.
 - `minimumReleaseAge: 3 days`: yarn ≥ 4.18 quarantines releases younger than a day, so fresher
   proposals fail `yarn install`; also a supply-chain buffer.
+- **Expo SDK patches**: 1 day (yarn's quarantine floor) and automerged on green CI. expo-doctor fails
+  the day Expo ships a patch, so the 3-day buffer would only keep the example apps red; the Expo
+  monorepo PR is the fix, so Renovate merges it itself.
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
 - `rebaseWhen: behind-base-branch`: every PR re-runs CI on the latest main, so a fix landing on main
   (e.g. an Expo SDK patch) turns the other PRs green without manual rebases.
