@@ -38,5 +38,6 @@ jobs:
           # lib preset's Expo postUpgradeTasks; exact matches only.
           RENOVATE_ALLOWED_COMMANDS: >-
             ["^yarn install --mode=skip-build$",
-             "^yarn --cwd example expo install --fix$"]
+             "^yarn --cwd example expo install --fix$",
+             "^yarn dedupe$"]
           LOG_LEVEL: info
