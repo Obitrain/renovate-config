@@ -33,6 +33,9 @@ Rules, in order:
   `@react-native-community/*`, `@shopify/react-native-*`): no routine bumps — they track the Expo
   SDK / align-deps (expo-doctor and align-deps fail otherwise); majors still surface. Expo packages
   move through Renovate's own "expo monorepo" group.
+- **Expo alignment**: any Expo bump runs `expo install --fix` in `example/` (post-upgrade task), so the
+  PR also aligns the SDK-pinned packages the rules above never bump. Needs the runner's
+  `RENOVATE_ALLOWED_COMMANDS`.
 - **build backbone** (`react-native-builder-bob`, `turbo`): solo PR, manual — a bad bump breaks the build.
 - **nitro** (`nitrogen` + `react-native-nitro-modules`): one PR together, manual — generated code must
   match the runtime, and 0.x minors are breaking. Inert in repos without these deps.
