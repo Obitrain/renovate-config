@@ -62,7 +62,7 @@
     {
       "matchPackageNames": ["expo", "expo-*", "@expo/*", "babel-preset-expo", "jest-expo"],
       "postUpgradeTasks": {
-        "commands": ["yarn install --mode=skip-build", "yarn --cwd example expo install --fix"],
+        "commands": ["yarn install --mode=skip-build", "yarn --cwd example expo install --fix", "yarn dedupe"],
         "fileFilters": ["**/package.json", "yarn.lock"],
         "executionMode": "branch"
       }
