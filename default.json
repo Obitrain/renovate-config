@@ -12,8 +12,11 @@
     {
       "matchPackageNames": ["expo", "expo-*", "@expo/*", "babel-preset-expo", "jest-expo"],
       "matchUpdateTypes": ["patch"],
-      "minimumReleaseAge": "1 day",
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["@obitrain/*", "react-native-zstd"],
+      "minimumReleaseAge": "1 day"
     }
   ]
 }
