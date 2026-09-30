@@ -58,6 +58,14 @@
       "dependencyDashboardApproval": true,
       "automerge": false,
       "addLabels": ["major-bump"]
+    },
+    {
+      "matchPackageNames": ["expo", "expo-*", "@expo/*", "babel-preset-expo", "jest-expo"],
+      "postUpgradeTasks": {
+        "commands": ["yarn install --mode=skip-build", "yarn --cwd example expo install --fix"],
+        "fileFilters": ["**/package.json", "yarn.lock"],
+        "executionMode": "branch"
+      }
     }
   ]
 }

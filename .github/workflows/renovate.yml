@@ -35,4 +35,8 @@ jobs:
              "Obitrain/renovate-config"]
           # Repos without a config get an onboarding PR proposing the lib preset.
           RENOVATE_ONBOARDING_CONFIG: '{"extends": ["github>Obitrain/renovate-config:lib"]}'
+          # lib preset's Expo postUpgradeTasks; exact matches only.
+          RENOVATE_ALLOWED_COMMANDS: >-
+            ["^yarn install --mode=skip-build$",
+             "^yarn --cwd example expo install --fix$"]
           LOG_LEVEL: info
