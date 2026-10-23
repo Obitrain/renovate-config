@@ -1,6 +1,6 @@
 # renovate-config
 
-Shared [Renovate](https://docs.renovatebot.com) presets for the Obitrain, Andarius and polarsen-io repos (GitHub + GitLab).
+Shared [Renovate](https://docs.renovatebot.com) presets for the Obitrain repos (GitHub + GitLab). Andarius and polarsen-io have their own `renovate-config` repo.
 Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` only
 (no `.json5` fallback), so the rationale lives here instead.
 
@@ -64,13 +64,11 @@ base and keep their rules inline.
 The GitHub repos are driven by this repo's own cron workflow
 (`.github/workflows/renovate.yml`, daily 18:00 UTC + `workflow_dispatch`),
 running [`renovatebot/github-action`](https://github.com/renovatebot/github-action)
-against the explicit repo list — not the [Mend app](https://github.com/apps/renovate). It needs the `RENOVATE_TOKEN` Actions secret: a **classic** PAT with
-`repo` scope (classic spans `Andarius`, `Obitrain` and `polarsen-io`; fine-grained PATs
-are per-owner). Repos without a config get an onboarding PR proposing the base
+against the explicit repo list — not the [Mend app](https://github.com/apps/renovate). It needs the `RENOVATE_TOKEN` Actions secret: a PAT with `repo` scope on `Obitrain`. Repos without a config get an onboarding PR proposing the base
 preset (switch RN libraries to `:lib`). GitHub suspends cron in repos inactive >60 days — re-enable from the
 Actions tab when the reminder email arrives.
 
-GitLab projects (`obitrain/*`, `polarsen-io/*`, selected `andarius/*`) are autodiscovered by the scheduled
+GitLab projects are autodiscovered by the scheduled
 `renovate` job in [obitrain/devops](https://gitlab.com/obitrain/devops); obiapp keeps its own scheduled CI job. Self-hosted GitLab runs need
 `GITHUB_COM_TOKEN` to fetch `github>` presets. Pin a revision with
 `github>Obitrain/renovate-config:lib#<tag>` if a config change must not apply
