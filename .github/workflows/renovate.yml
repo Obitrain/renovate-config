@@ -1,6 +1,6 @@
-# Central Renovate runner for the GitHub repos (obiapp lives on GitLab and has
-# its own scheduled CI job). Needs the RENOVATE_TOKEN secret: a classic PAT,
-# repo scope — classic spans Andarius + Obitrain; fine-grained is per-owner.
+# Renovate runner for the Obitrain GitHub repos (Andarius and polarsen-io have their own
+# renovate-config repo; GitLab: obitrain/devops pipeline, obiapp keeps its own job).
+# Needs the RENOVATE_TOKEN secret: a PAT with repo scope on Obitrain.
 name: renovate
 
 on:
@@ -26,15 +26,15 @@ jobs:
           token: ${{ secrets.RENOVATE_TOKEN }}
         env:
           RENOVATE_REPOSITORIES: >-
-            ["Andarius/react-native-zstd",
+            ["Obitrain/obi",
+             "Obitrain/obi-chart",
              "Obitrain/obi-google-auth",
              "Obitrain/obi-image",
              "Obitrain/obi-notifications",
-             "Obitrain/obi-chart",
              "Obitrain/obiapp-ui",
              "Obitrain/renovate-config"]
-          # Repos without a config get an onboarding PR proposing the lib preset.
-          RENOVATE_ONBOARDING_CONFIG: '{"extends": ["github>Obitrain/renovate-config:lib"]}'
+          # Repos without a config get an onboarding PR proposing the base preset (RN libs switch to :lib).
+          RENOVATE_ONBOARDING_CONFIG: '{"extends": ["github>Obitrain/renovate-config"]}'
           # lib preset's Expo postUpgradeTasks; exact matches only.
           RENOVATE_ALLOWED_COMMANDS: >-
             ["^yarn install --mode=skip-build$",

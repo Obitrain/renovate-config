@@ -1,14 +1,34 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
-  "enabledManagers": ["npm"],
   "timezone": "Europe/Paris",
   "minimumReleaseAge": "3 days",
   "prConcurrentLimit": 5,
   "rangeStrategy": "bump",
   "rebaseWhen": "behind-base-branch",
   "labels": ["dependencies"],
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "minimumReleaseAge": null,
+    "prCreation": "immediate"
+  },
   "packageRules": [
+    {
+      "matchManagers": ["gradle", "gradle-wrapper", "cocoapods", "bundler"],
+      "enabled": false
+    },
+    {
+      "matchManagers": ["github-actions", "gitlabci", "gitlabci-include"],
+      "matchUpdateTypes": ["minor", "patch", "digest", "pinDigest"],
+      "groupName": "CI"
+    },
+    {
+      "matchManagers": ["!npm"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "addLabels": ["major-bump"]
+    },
     {
       "matchPackageNames": ["expo", "expo-*", "@expo/*", "babel-preset-expo", "jest-expo"],
       "matchUpdateTypes": ["patch"],
