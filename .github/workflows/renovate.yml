@@ -1,6 +1,6 @@
-# Central Renovate runner for the GitHub repos (obiapp lives on GitLab and has
-# its own scheduled CI job). Needs the RENOVATE_TOKEN secret: a classic PAT,
-# repo scope — classic spans Andarius + Obitrain; fine-grained is per-owner.
+# Central Renovate runner for the GitHub repos (GitLab: obitrain/devops pipeline;
+# obiapp keeps its own scheduled CI job). Needs the RENOVATE_TOKEN secret: a classic PAT,
+# repo scope — classic spans all owners; fine-grained is per-owner.
 name: renovate
 
 on:
@@ -26,15 +26,30 @@ jobs:
           token: ${{ secrets.RENOVATE_TOKEN }}
         env:
           RENOVATE_REPOSITORIES: >-
-            ["Andarius/react-native-zstd",
+            ["Andarius/agent-relay",
+             "Andarius/choub",
+             "Andarius/go-videothumbnail",
+             "Andarius/gravier",
+             "Andarius/immich-companion",
+             "Andarius/piou",
+             "Andarius/react-native-zstd",
+             "Andarius/screen-map",
+             "Andarius/scw-secrets-desktop",
+             "Andarius/trame",
+             "Obitrain/obi",
+             "Obitrain/obi-chart",
              "Obitrain/obi-google-auth",
              "Obitrain/obi-image",
              "Obitrain/obi-notifications",
-             "Obitrain/obi-chart",
              "Obitrain/obiapp-ui",
-             "Obitrain/renovate-config"]
-          # Repos without a config get an onboarding PR proposing the lib preset.
-          RENOVATE_ONBOARDING_CONFIG: '{"extends": ["github>Obitrain/renovate-config:lib"]}'
+             "Obitrain/renovate-config",
+             "polarsen-io/padwan-agents",
+             "polarsen-io/padwan-ai",
+             "polarsen-io/padwan-cli",
+             "polarsen-io/padwan-proxy",
+             "polarsen-io/polarsen"]
+          # Repos without a config get an onboarding PR proposing the base preset (RN libs switch to :lib).
+          RENOVATE_ONBOARDING_CONFIG: '{"extends": ["github>Obitrain/renovate-config"]}'
           # lib preset's Expo postUpgradeTasks; exact matches only.
           RENOVATE_ALLOWED_COMMANDS: >-
             ["^yarn install --mode=skip-build$",
