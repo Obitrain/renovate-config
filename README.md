@@ -18,6 +18,7 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
   proposals fail `yarn install`; also a supply-chain buffer.
 - **Expo SDK patches**: keep the 3-day buffer, automerged on green CI.
 - **Own packages** (`@obitrain/*`, `react-native-zstd`): 1 day (yarn's quarantine floor) — trusted, no buffer needed.
+- **Node eMudhra CA fix** (22.23.4 / 24.22.1 / 26.12.1): no buffer. Drop the rule once older than 3 days everywhere.
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
 - `rebaseWhen: behind-base-branch`: every PR re-runs CI on the latest main, so a fix landing on main
   (e.g. an Expo SDK patch) turns the other PRs green without manual rebases.
