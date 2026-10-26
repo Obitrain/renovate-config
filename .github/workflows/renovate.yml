@@ -31,6 +31,7 @@ jobs:
              "Obitrain/obi-google-auth",
              "Obitrain/obi-image",
              "Obitrain/obi-notifications",
+             "Obitrain/obi-samsung-health",
              "Obitrain/obiapp-ui",
              "Obitrain/renovate-config"]
           # Repos without a config get an onboarding PR proposing the base preset (RN libs switch to :lib).
