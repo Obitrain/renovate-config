@@ -68,7 +68,7 @@
       }
     },
     {
-      "matchPackageNames": ["node"],
+      "matchDepNames": ["node"],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": false
     }
