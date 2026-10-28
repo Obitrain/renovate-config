@@ -66,6 +66,11 @@
         "fileFilters": ["**/package.json", "yarn.lock"],
         "executionMode": "branch"
       }
+    },
+    {
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": false
     }
   ]
 }
