@@ -18,7 +18,7 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
   proposals fail `yarn install`; also a supply-chain buffer.
 - **Expo SDK patches**: keep the 3-day buffer, automerged on green CI.
 - **Own packages** (`@obitrain/*`, `react-native-zstd`): 1 day (yarn's quarantine floor) — trusted, no buffer needed.
-- **Node eMudhra CA fix** (22.23.4 / 24.22.1 / 26.12.1): no buffer. Drop the rule once older than 3 days everywhere.
+- **Node majors**: PR opened without Dashboard approval, so repos follow the latest LTS (Renovate's `node` versioning only offers LTS lines).
 - `rangeStrategy: bump` (move the `^range`, keep the caret), 5 concurrent PRs, `dependencies` label.
 - `rebaseWhen: behind-base-branch`: every PR re-runs CI on the latest main, so a fix landing on main
   (e.g. an Expo SDK patch) turns the other PRs green without manual rebases.
@@ -45,7 +45,7 @@ Rules, in order:
 - **nitro** (`nitrogen` + `react-native-nitro-modules`): one PR together, manual — generated code must
   match the runtime, and 0.x minors are breaking. Inert in repos without these deps.
 - **RN core** (`react-native`, `@react-native/*`, cli): fully ignored — platform upgrades are manual (rn-upgrade).
-- **majors**: created only when approved on the Dependency Dashboard, never automerged, labeled `major-bump`.
+- **majors**: created only when approved on the Dependency Dashboard (except Node, see base), never automerged, labeled `major-bump`.
 
 Repos with diverging policy ([obi-chart](https://github.com/Obitrain/obi-chart): weekly cadence, Expo-bundled natives,
 align-deps ownership where RN-core majors must still surface) extend only the
