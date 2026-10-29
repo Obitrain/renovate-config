@@ -12,8 +12,8 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
 - **Vulnerabilities**: [OSV](https://osv.dev) alerts on top of the platform's own; fix PRs skip the release-age
   buffer, open immediately and get the `security` label.
 - **CI** (Actions / GitLab CI) non-major bumps: one grouped PR. **Non-npm majors**: Dependency Dashboard approval, `major-bump`.
-- No `schedule`: the runner's nightly cron is the only time gate. GitHub starts it hours late
-  (runs have landed ~5h late), so an in-config window like `before 6am` would never match.
+- No `schedule`: the runner's nightly pipeline schedule is the only time gate, so runner-side
+  timing changes never need a preset change.
 - `minimumReleaseAge: 3 days`: yarn ≥ 4.18 quarantines releases younger than a day, so fresher
   proposals fail `yarn install`; also a supply-chain buffer.
 - **Expo SDK patches**: keep the 3-day buffer, automerged on green CI.
@@ -62,16 +62,13 @@ base and keep their rules inline.
 
 ## Runner
 
-The GitHub repos are driven by this repo's own cron workflow
-(`.github/workflows/renovate.yml`, daily 18:00 UTC + `workflow_dispatch`),
-running [`renovatebot/github-action`](https://github.com/renovatebot/github-action)
-against the explicit repo list — not the [Mend app](https://github.com/apps/renovate). It runs as the Renovate GitHub App: the `RENOVATE_APP_CLIENT_ID` variable and `RENOVATE_APP_PRIVATE_KEY` secret mint a 1h token per run. Repos without a config get an onboarding PR proposing the base
-preset (switch RN libraries to `:lib`). GitHub suspends cron in repos inactive >60 days — re-enable from the
-Actions tab when the reminder email arrives.
+[obitrain/renovate](https://gitlab.com/obitrain/renovate) runs Renovate nightly on GitLab, with two jobs:
 
-GitLab projects are autodiscovered by the scheduled
-`renovate` job in [obitrain/renovate](https://gitlab.com/obitrain/renovate); obiapp keeps its own scheduled CI job. Self-hosted GitLab runs mint
-`GITHUB_COM_TOKEN` from the same GitHub App to fetch `github>` presets. Pin a revision with
-`github>Obitrain/renovate-config:lib#<tag>` if a config change must not apply
+- `renovate-github`: the Obitrain GitHub repos listed there, as the `obitrain-renovate[bot]` GitHub App
+  (a 1h token minted per run). Repos without a config get an onboarding PR proposing the base preset
+  (switch RN libraries to `:lib`).
+- `renovate-gitlab`: the `obitrain` GitLab group (obiapp keeps its own scheduled CI job).
+
+Pin a revision with `github>Obitrain/renovate-config:lib#<tag>` if a config change must not apply
 instantly everywhere. This repo stays public so cross-owner preset fetches
 (e.g. Andarius/react-native-zstd) keep working.
