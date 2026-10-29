@@ -1,6 +1,6 @@
 # Renovate runner for the Obitrain GitHub repos (Andarius and polarsen-io have their own
-# renovate-config repo; GitLab: obitrain/devops pipeline, obiapp keeps its own job).
-# Needs the RENOVATE_TOKEN secret: a PAT with repo scope on Obitrain.
+# renovate-config repo; GitLab: obitrain/renovate, obiapp keeps its own job).
+# Runs as the Renovate GitHub App (vars.RENOVATE_APP_CLIENT_ID, secrets.RENOVATE_APP_PRIVATE_KEY).
 name: renovate
 
 on:
@@ -20,11 +20,27 @@ jobs:
   renovate:
     runs-on: ubuntu-latest
     steps:
+      - name: App token
+        id: app
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.RENOVATE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - name: Bot identity
+        id: bot
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          SLUG: ${{ steps.app.outputs.app-slug }}
+        run: echo "author=$SLUG[bot] <$(gh api "/users/$SLUG%5Bbot%5D" --jq .id)+$SLUG[bot]@users.noreply.github.com>" >> "$GITHUB_OUTPUT"
       - name: Renovate
         uses: renovatebot/github-action@a63d9a7bc606f7336fd20b47f2f32259a35e6213 # v46.3.9
         with:
-          token: ${{ secrets.RENOVATE_TOKEN }}
+          token: ${{ steps.app.outputs.token }}
         env:
+          RENOVATE_USERNAME: ${{ steps.app.outputs.app-slug }}[bot]
+          RENOVATE_GIT_AUTHOR: ${{ steps.bot.outputs.author }}
+          RENOVATE_PLATFORM_COMMIT: enabled
           RENOVATE_REPOSITORIES: >-
             ["Obitrain/obi",
              "Obitrain/obi-chart",

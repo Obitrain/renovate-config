@@ -65,13 +65,13 @@ base and keep their rules inline.
 The GitHub repos are driven by this repo's own cron workflow
 (`.github/workflows/renovate.yml`, daily 18:00 UTC + `workflow_dispatch`),
 running [`renovatebot/github-action`](https://github.com/renovatebot/github-action)
-against the explicit repo list — not the [Mend app](https://github.com/apps/renovate). It needs the `RENOVATE_TOKEN` Actions secret: a PAT with `repo` scope on `Obitrain`. Repos without a config get an onboarding PR proposing the base
+against the explicit repo list — not the [Mend app](https://github.com/apps/renovate). It runs as the Renovate GitHub App: the `RENOVATE_APP_CLIENT_ID` variable and `RENOVATE_APP_PRIVATE_KEY` secret mint a 1h token per run. Repos without a config get an onboarding PR proposing the base
 preset (switch RN libraries to `:lib`). GitHub suspends cron in repos inactive >60 days — re-enable from the
 Actions tab when the reminder email arrives.
 
 GitLab projects are autodiscovered by the scheduled
-`renovate` job in [obitrain/devops](https://gitlab.com/obitrain/devops); obiapp keeps its own scheduled CI job. Self-hosted GitLab runs need
-`GITHUB_COM_TOKEN` to fetch `github>` presets. Pin a revision with
+`renovate` job in [obitrain/renovate](https://gitlab.com/obitrain/renovate); obiapp keeps its own scheduled CI job. Self-hosted GitLab runs mint
+`GITHUB_COM_TOKEN` from the same GitHub App to fetch `github>` presets. Pin a revision with
 `github>Obitrain/renovate-config:lib#<tag>` if a config change must not apply
 instantly everywhere. This repo stays public so cross-owner preset fetches
 (e.g. Andarius/react-native-zstd) keep working.
