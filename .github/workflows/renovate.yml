@@ -41,6 +41,8 @@ jobs:
           RENOVATE_USERNAME: ${{ steps.app.outputs.app-slug }}[bot]
           RENOVATE_GIT_AUTHOR: ${{ steps.bot.outputs.author }}
           RENOVATE_PLATFORM_COMMIT: enabled
+          # adopt PRs opened under the previous PAT user
+          RENOVATE_IGNORE_PR_AUTHOR: 'true'
           RENOVATE_REPOSITORIES: >-
             ["Obitrain/obi",
              "Obitrain/obi-chart",
