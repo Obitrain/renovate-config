@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits", "docker:pinDigests"],
   "timezone": "Europe/Paris",
   "minimumReleaseAge": "3 days",
   "prConcurrentLimit": 5,
@@ -22,6 +22,14 @@
       "matchManagers": ["github-actions", "gitlabci", "gitlabci-include"],
       "matchUpdateTypes": ["minor", "patch", "digest", "pinDigest"],
       "groupName": "CI"
+    },
+    {
+      "matchUpdateTypes": ["pinDigest"],
+      "groupName": "pin digests"
+    },
+    {
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
     },
     {
       "matchManagers": ["!npm"],
