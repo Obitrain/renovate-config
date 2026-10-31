@@ -12,6 +12,7 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
 - **Vulnerabilities**: [OSV](https://osv.dev) alerts on top of the platform's own; fix PRs skip the release-age
   buffer, open immediately and get the `security` label.
 - **CI** (Actions / GitLab CI) non-major bumps: one grouped PR. **Non-npm majors**: Dependency Dashboard approval, `major-bump`.
+- **Docker images** pinned as `tag@sha256:…` (tags are mutable): one `pin digests` PR per repo, then digest-only bumps automerge on green CI after the release-age buffer.
 - No `schedule`: the runner's nightly pipeline schedule is the only time gate, so runner-side
   timing changes never need a preset change.
 - `minimumReleaseAge: 3 days`: yarn ≥ 4.18 quarantines releases younger than a day, so fresher
