@@ -27,8 +27,7 @@ Plain JSON, no comments — Renovate fetches remote presets as `<name>.json` onl
 ## `lib.json` — RN library policy (extends the base)
 
 For [react-native-builder-bob](https://github.com/callstack/react-native-builder-bob)
-library repos ([obiapp-ui](https://github.com/Obitrain/obiapp-ui),
-[react-native-zstd](https://github.com/Andarius/react-native-zstd),
+library repos ([react-native-zstd](https://github.com/Andarius/react-native-zstd),
 [obi-google-auth](https://github.com/Obitrain/obi-google-auth), ...).
 Rules, in order:
 
@@ -63,12 +62,12 @@ base and keep their rules inline.
 
 ## Runner
 
-[obitrain/renovate](https://gitlab.com/obitrain/renovate) runs Renovate nightly on GitLab, with two jobs:
+A private GitLab runner runs Renovate nightly, with two jobs:
 
 - `renovate-github`: the Obitrain GitHub repos listed there, as the `obitrain-renovate[bot]` GitHub App
   (a 1h token minted per run). Repos without a config get an onboarding PR proposing the base preset
   (switch RN libraries to `:lib`).
-- `renovate-gitlab`: the `obitrain` GitLab group (obiapp keeps its own scheduled CI job).
+- `renovate-gitlab`: the Obitrain GitLab repos.
 
 Pin a revision with `github>Obitrain/renovate-config:lib#<tag>` if a config change must not apply
 instantly everywhere. This repo stays public so cross-owner preset fetches
