@@ -30,6 +30,12 @@
       "automerge": false
     },
     {
+      "description": "A Python version bump needs Docker and .python-version changes by hand",
+      "matchDepTypes": ["requires-python"],
+      "groupName": "python version",
+      "automerge": false
+    },
+    {
       "matchManagers": ["github-actions", "gitlabci", "gitlabci-include"],
       "matchUpdateTypes": ["minor", "patch", "digest", "pinDigest"],
       "groupName": "CI"
