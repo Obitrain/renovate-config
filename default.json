@@ -24,9 +24,10 @@
       "automerge": true
     },
     {
-      "matchUpdateTypes": ["minor", "patch"],
+      "description": "0.x minors can break: one manual PR each, so a bad one only blocks itself",
+      "matchUpdateTypes": ["minor"],
       "matchCurrentVersion": "<1.0.0",
-      "groupName": "0.x dependencies",
+      "groupName": null,
       "automerge": false
     },
     {
