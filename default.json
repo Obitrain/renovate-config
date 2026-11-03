@@ -25,7 +25,8 @@
     },
     {
       "matchUpdateTypes": ["pinDigest"],
-      "groupName": "pin digests"
+      "groupName": "pin digests",
+      "minimumReleaseAge": null
     },
     {
       "matchUpdateTypes": ["digest"],
